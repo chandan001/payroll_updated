@@ -95,13 +95,13 @@
       <div class="jumbotron">
         <h1>Pride Payroll</h1>
         <p class="lead">This payroll management system has improvised all the basic exercise to manage the salary of the employees.</p>
-        <p><a data-toggle="modal" class="btn btn-lg btn-success" href="#instructor" role="button">Brought To You By: PridePoint </a></p>
+     
       </div>
 
       <!-- Site footer -->
       <footer class="footer">
         <p align="center">&copy; 2020 Pride Point Payroll</p>
-        <p align="center">Brought To You By<a target="_blank" href="#">Pride Point Payroll</a></p>
+        <p align="center">Brought To You By:&nbsp;<a target="_blank" href="#">Pride Point Payroll</a></p>
       </footer>
 
       <!-- this modal is for my INSTRUCTOR -->

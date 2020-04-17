@@ -9,18 +9,20 @@
 
  // if(isset($_POST['submit1']))
   //{
-    $lname      = $_POST['lname'];
-    $fname      = $_POST['fname'];
-    $gender     = $_POST['gender'];
-    $type       = $_POST['emp_type'];
-    $division   = $_POST['division'];
+    $lname=$_POST['lname'];
+    $fname=$_POST['fname'];
+    $gender= $_POST['gender'];
+    $type= $_POST['emp_type'];
+    $division= $_POST['division'];
 	 $conn11 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
  // if (!$conn)
   //{
     //die("Database Connection Failed" . mysqli_error());
   //}
 	
-		$query11=	"insert into employee(lname,fname,gender,emp_type,division)values('$lname','$fname','$gender','$type','$division')";			  
+		$query11="insert into employee(lname,fname,gender,emp_type,division)values('$lname','$fname','$gender','$type','$division')";	
+		mysqli_query($conn11,$query11) or die("Error in Query" . mysqli_error($conn11));
+		  
 						  
 	  $cnt = mysqli_affected_rows($conn11);
 	mysqli_close($conn11);
@@ -28,7 +30,7 @@
 	  					  
     //$sql = mysqli_query("INSERT into employee(lname, fname, gender, emp_type, division)VALUES('$lname','$fname','$gender', '$type', '$division')");
 
-    if($cnt>1)
+    if($cnt>0)
     {
       ?>
         <script>

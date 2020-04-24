@@ -67,7 +67,7 @@ $query="select * from deductions where deduction_id='1'";
     <div class="container">
       <div class="masthead">
         <h3>
-          <b><a href="index.php">Pride Payroll </a></b>
+          <b><img src="images/logo.png"> by Pridepoint</b>
             <a data-toggle="modal" href="#colins" class="pull-right"><b>Admin</b></a>
         </h3>
         <nav>
@@ -134,7 +134,7 @@ $query="select * from deductions where deduction_id='1'";
                           <td align="center"><a href="view_employee.php?emp_id=<?php echo $row["emp_id"]; ?>" title="Update"><?php echo $row['emp_type'] ?></a></td>
                           <td align="center"><a href="view_employee.php?emp_id=<?php echo $row["emp_id"]; ?>" title="Update"><?php echo $row['division'] ?></a></td>
                           <td align="center">
-                            <a class="btn btn-primary" href="view_account.php?emp_id=<?php echo $row["emp_id"]; ?>">Account</a>
+                            <a class="btn btn-primary" href="view_account.php?emp_id=<?php echo $row['emp_id'];  ?>&lname=<?php echo $row['lname']; ?>&fname=<?php echo $row['fname']; ?>" >Account</a>
                             <a class="btn btn-danger" href="delete.php?emp_id=<?php echo $row["emp_id"]; ?>">Delete</a>
                           </td>
                         </tr>
@@ -212,6 +212,17 @@ $query="select * from deductions where deduction_id='1'";
                     </select>
                   </div>
                 </div>
+                <div class="form-group">
+               
+                 <label class="col-sm-4 control-label">Salary</label>
+                  <div class="col-sm-8">
+                 <input type="number" name="salary" class="form-control" placeholder="Salary" required>
+                    
+               </div>     
+                    
+                      </div>
+               
+                
 
                 <div class="form-group">
                   <label class="col-sm-4 control-label"></label>

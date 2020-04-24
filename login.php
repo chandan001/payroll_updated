@@ -8,7 +8,7 @@
 
     <script>
       <!--
-        var ScrollMsg= "Payroll Management System - "
+        var ScrollMsg= "Pridepoint Payroll - "
         var CharacterPosition=0;
         function StartScrolling() {
         document.title=ScrollMsg.substring(CharacterPosition,ScrollMsg.length)+
@@ -72,7 +72,7 @@
 <div class="container">
   <section id="content">
     <form action="" method="post">
-      <h1>Login Form</h1>
+      <h1><img src="images/logo.png"> By Pridepoint</h1>
       <div>
         <input name=username type="text" placeholder="Enter Username" required>
         <!-- <input type="text" placeholder="Username" required="" id="username" /> -->

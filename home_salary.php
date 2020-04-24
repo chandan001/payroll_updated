@@ -17,7 +17,7 @@ $conn = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
    $res=mysqli_query($conn, $query) or die("Error in Query" . mysqli_error($conn));
   while($row=mysqli_fetch_array($res))
   {
-    @$rate           = $row['rate'];
+    $rate           = $row['rate'];
   }
 
 $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
@@ -32,7 +32,7 @@ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
   $res1=mysqli_query($conn1, $query1) or die("Error in Query" . mysqli_error($conn1));
   while($row1=mysqli_fetch_array($res1))
   {
-    @$salary           = $row1['salary_rate'];
+    $salary  = $row1['salary_rate'];
   }
 ?>
 
@@ -81,7 +81,7 @@ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
     <div class="container">
       <div class="masthead">
         <h3>
-          <b><a href="index.php">Pride Payroll</a></b>
+           <b><img src="images/logo.png"> by Pridepoint</b>
             <a data-toggle="modal" href="#colins" class="pull-right"><b>Admin</b></a>
         </h3>
         <nav>
@@ -106,7 +106,7 @@ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
                 <button type="button" data-toggle="modal" data-target="#overtime" class="btn btn-success">Modify Overtime Rate</button>
                 <button type="button" data-toggle="modal" data-target="#salary" class="btn btn-primary">Modify Salary Rate</button>
                 <p class="pull-right">Overtime rate per hour: <big><b><?php echo $rate; ?>.00</b></big></p><br>
-                <p class="pull-right">Salary rate: <big><b><?php echo $salary; ?>.00 $</b></big></p>
+               <!---- <p class="pull-right">Salary rate: <big><b><?php// echo $salary; ?>.00 $</b></big></p>------>
                 <p align="center"><big><b>Account</b></big></p>
                 <div class="table-responsive">
                   <form method="post" action="" >
@@ -118,7 +118,6 @@ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
                           <th><p align="center">Deduction</p></th>
                           <th><p align="center">Overtime</p></th>
                           <th><p align="center">Bonus</p></th>
-                          <th><p align="center">Net Pay</p></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -167,7 +166,7 @@ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
 						  
 						  
 
-                          $query4  = "SELECT * from employee";
+                          $query4  = "SELECT * from employee order by emp_id";
 						  $res4=mysqli_query($conn4, $query4) or die("Error in Query" . mysqli_error($conn4));
 
                           
@@ -191,7 +190,6 @@ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
                           <td align="center"><big><b><?php echo $deduction?></b></big>.00 $</td>
                           <td align="center"><big><b><?php echo $overtime?></b></big> hrs</td>
                           <td align="center"><big><b><?php echo $bonus?></b></big>.00 $</td>
-                          <td align="center"><big><b><?php echo $netpay?></b></big>.00 $</td>
                         </tr>
                         <?php } ?>
                       </tbody>
@@ -243,14 +241,91 @@ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
             </div>
             <div class="modal-body" style="padding:40px 50px;">
 
-              <form class="form-horizontal" action="update_salary.php" name="form" method="post">
+              <form class="form-horizontal" name="form" method="post">
+              
+              
+                <div class="form-group">
+                <select name="empsal" class="form-control" required>
+   
+   <?php
+                    $conn = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                          if (!$conn)
+                          {
+                            die("Database Connection Failed" . mysql_error());
+                          }
+
+
+  $query  = "SELECT * from employee";
+  $res=mysqli_query($conn,$query) or die("Error in Query" . mysqli_error($conn));
+  while($e=mysqli_fetch_array($res))
+  {  
+                      echo"<option value='$e[0]' selected='selected' >$e[1].$e[2]</option>";
+                      
+  }
+                    
+   ?>                 
+                    
+                    </select>
+                
+                
+                
+                </div>
+                
+                
                 <div class="form-group">
                     <input type="text" name="salary_rate" class="form-control" value="<?php echo $salary; ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" name="submit" class="btn btn-success" value="Submit">
+                    <input type="submit" name="submit1" class="btn btn-success" value="Submit">
                 </div>
+                
+                <?php
+	
+		///require("db.php");
+		 //include("auth.php");
+	//$id 			= $_POST['salary_id'];
+		//include("auth.php");
+		
+		if(isset($_POST["submit1"]))
+		{
+			
+			$salary	= $_POST['salary_rate'];
+		$emp=$_POST["empsal"];
+$connr = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+
+
+		$queryr = "UPDATE salary SET salary_rate='$salary' where emp_id='$emp' ";
+		mysqli_query($connr,$queryr) or die("Error in Query" . mysqli_error($connr));
+
+	  $cntr = mysqli_affected_rows($connr);
+	mysqli_close($connr);
+	  
+  if ($cntr>0)
+
+		{
+			echo"
+		        <script>
+		            alert('Salary rate successfully changed...');
+		            window.location.href='home_salary.php';
+		        </script>";
+		    
+		}
+		else {
+			echo "
+			
+			
+			
+			<script>
+		            alert('Not Successfull !');
+		            window.location.href='home_salary.php';
+		        </script>";
+			
+		
+		}
+		}
+ ?>
+                
               </form>
 
             </div>

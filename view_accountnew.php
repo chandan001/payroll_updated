@@ -1,23 +1,29 @@
 <?php
+
+		//$id=$_REQUEST['emp_id'];
+		
+
  // include("db.php"); //include auth.php file on all secure pages
   include("auth.php");
-$conn11 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
-
-  $query="SELECT * from deductions WHERE deduction_id='1'";
- $res1 = mysqli_query($conn11,$query) or die("Error in Query" . mysqli_error($conn11));
-		  
+  
+  
+  //$conn = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+    ////                      if (!$conn)
+         //                 {
+          //                  die("Database Connection Failed" . mysqli_error());
+             //             }
 						  
-	  $cnt = mysqli_affected_rows($conn11);
-	mysqli_close($conn11);
 
-  while($row = mysqli_fetch_array($res1))
-  {
-    $phil = $row['philhealth'];
-    $bir = $row['bir'];
-    $gsis = $row['gsis'];
-    $love = $row['pag_ibig'];
-    $loans = $row['loans'];
-  }
+ // $query="SELECT * from deductions WHERE deduction_id='1'";
+  //$res=mysqli_query($conn,$query) or die("Error in Query" . mysqli_error($conn));
+  //while($row = mysqli_fetch_array($res))
+  //{
+    //$phil = $row['philhealth'];
+    //$bir = $row['bir'];
+    //$gsis = $row['gsis'];
+    //$love = $row['pag_ibig'];
+    //$loans = $row['loans'];
+ // }
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +42,7 @@ $conn11 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
 
     <script>
       <!--
-        var ScrollMsg= "Payroll and Management System - "
+        var ScrollMsg= "Pride Payroll - "
         var CharacterPosition=0;
         function StartScrolling() {
         document.title=ScrollMsg.substring(CharacterPosition,ScrollMsg.length)+
@@ -65,7 +71,7 @@ $conn11 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
     <div class="container">
       <div class="masthead">
         <h3>
-         <b><img src="images/logo.png"> by Pridepoint</b>
+          <b><a href="index.php">Pride Payroll </a></b>
             <a data-toggle="modal" href="#colins" class="pull-right"><b>Admin</b></a>
         </h3>
         <nav>
@@ -84,77 +90,115 @@ $conn11 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
       </div><br><br>
 
       <?php
-        $id=$_REQUEST['emp_id'];
-		$conn = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+ $conn1 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                          if (!$conn1)
+                          {
+                            die("Database Connection Failed" . mysqli_error());
+                          }
+						  
+        
+		$id=$_REQUEST['emp_id'];
+		
+
+//print"$id";
 
 		
-        $query = "SELECT * from employee where emp_id='".$id."'";
-        $result = mysqli_query($conn,$query) or die ( mysql_error());
+        //$query1 = "SELECT * from employee where emp_id='".$id."'";
+       $query1 = "select * from employee where emp_id='$id'";
+       
+	   
+	   
+	   
+	    $res1 = mysqli_query($conn1,$query1) or die ( mysqli_error());
 
-        while ($row = mysqli_fetch_array($result))
+$x=mysqli_fetch_array($res1);
+
+print"$x[0]";
+
+$conn2 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                          if (!$conn2)
+                          {
+                            die("Database Connection Failed" . mysqli_error());
+                          }
+
+
+
+        $query2  = "SELECT * from overtime where emp_id='$id' ";
+		$res2=mysqli_query($conn2,$query2) or die ( mysqli_error()); 
+        while($row=mysqli_fetch_array($res2))
         {
+          $rate   = $row['rate'];
+        }
 
+
+
+
+
+$conn3 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                          if (!$conn3)
+                          {
+                            die("Database Connection Failed" . mysqli_error());
+                          }
+
+
+        $query3  = "select * from salary";
+		
+		$res3=mysqli_query($conn3,$query3) or die ( mysqli_error());
+        while($row3=mysqli_fetch_array($res3))
+        {
+          $salary   = $row3['salary_rate'];
+        }
+
+        while ($row = mysqli_fetch_assoc($res3))
+        {
+            $overtime     = $row3['overtime'] * $rate;
+            $bonus     = $row3['bonus'];
+            $deduction  = $ro3['deduction'];
+            $income   = $overtime + $bonus + $salary;
+            $netpay   = $income - $deduction;
           ?>
 
-              <form class="form-horizontal" action="update_employee.php" method="post" name="form">
+              <form class="form-horizontal" action="update_account.php" method="post" name="form">
                 <input type="hidden" name="new" value="1" />
-                <input name="id" type="hidden" value="<?php echo $row['emp_id'];?>" />
+                <input name="id" type="hidden" value="<?php echo $row3['emp_id'];?>" />
                   <div class="form-group">
                     <label class="col-sm-5 control-label"></label>
                     <div class="col-sm-4">
-                      <h2><?php echo $row['lname']; ?>, <?php echo $row['fname']; ?></h2>
+                      <h2><?php echo $row3['lname']; ?>, <?php echo $row3['fname']; ?></h2>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-5 control-label">Lastname  :</label>
+                    <label class="col-sm-5 control-label">Deduction/s  :</label>
                     <div class="col-sm-4">
-                      <input type="text" name="lname" class="form-control" value="<?php echo $row['lname'];?>" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-5 control-label">Firstname  :</label>
-                    <div class="col-sm-4">
-                      <input type="text" name="fname" class="form-control" value="<?php echo $row['fname'];?>" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-5 control-label">Gender  :</label>
-                    <div class="col-sm-4">
-                    <select name="gender" class="form-control" required>
-                      <option value="<?php echo $row['gender'];?>"><?php echo $row['gender'];?></option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
+                    <select name="deduction" class="form-control" required>
+                      <option value=""><?php echo $row3['deduction'];?></option>
+                      <option value="<?php echo $phil; ?>">PhilHealth</option>
+                      <option value="<?php echo $bir; ?>">BIR</option>
+                      <option value="<?php echo $gsis; ?>">GSIS</option>
+                      <option value="<?php echo $love; ?>">PAG-IBIG</option>
+                      <option value="<?php echo $loans; ?>">Loans</option>
                     </select>
                   </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-5 control-label">Employee Type  :</label>
+                    <label class="col-sm-5 control-label">Overtime  :</label>
                     <div class="col-sm-4">
-                      <select name="emp_type" class="form-control" required>
-                        <option value="<?php echo $row['emp_type'];?>"><?php echo $row['emp_type'];?></option>
-                        <option value="Job Order">Job Order</option>
-                        <option value="Regular">Regular</option>
-                        <option value="Casual">Casual</option>
-                      </select>
+                      <input type="text" name="overtime" class="form-control" value="<?php echo $row3['overtime'];?>" required>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-5 control-label">Department  :</label>
+                    <label class="col-sm-5 control-label">Bonus  :</label>
                     <div class="col-sm-4">
-                      <select name="division" class="form-control" placeholder="Division" required>
-                        <option value="<?php echo $row['division'];?>"><?php echo $row['division'];?></option>
-                        <option value="Admin">Admin</option>
-                        <option value="Human Resource">Human Resource</option>
-                        <option value="Accounting">Accounting</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="MIS">MIS</option>
-                        <option value="Supply">Supply</option>
-                        <option value="Maintenance">Maintenance</option>
-                        <option value="Control">Control</option>
-                      </select>
+                      <input type="text" name="bonus" class="form-control" value="<?php echo $row3['bonus'];?>" required>
                     </div>
                   </div><br><br>
 
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Netpay  :</label>
+                    <div class="col-sm-4">
+                      <?php echo $netpay;?>.00
+                    </div>
+                  </div><br><br>
                   <div class="form-group">
                     <label class="col-sm-5 control-label"></label>
                     <div class="col-sm-4">

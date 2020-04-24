@@ -79,7 +79,7 @@
     <div class="container">
       <div class="masthead">
         <h3>
-          <b>Pride Payroll</b>
+          <b><img src="images/logo.png"> by Pridepoint</b>
             <a data-toggle="modal" href="#colins" class="pull-right"><b><?php echo $_SESSION['username']; ?></b></a>
         </h3>
         <nav>

@@ -72,7 +72,7 @@
     <div class="container">
       <div class="masthead">
         <h3>
-          <b><a href="index.php">Pride Payroll</a></b>
+           <b><img src="images/logo.png"> by Pridepoint</b>
             <a data-toggle="modal" href="#colins" class="pull-right"><b>Admin</b></a>
         </h3>
         <nav>
@@ -89,28 +89,31 @@
           </ul>
         </nav>
       </div><br><br>
-
+<center>
               <form class="form-horizontal" action="#" name="form">
+              
+              <h1>Neccessary employee benefits & deductions  </h1>
+              <br>
                 <div class="form-group">
-                  <label class="col-sm-5 control-label">PhilHealth  :</label>
+                  <label class="col-sm-5 control-label">PhilHealth Premium :</label>
                   <div class="col-sm-4">
                     <?php echo $philhealth; ?>.00 $
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-5 control-label">BIR :</label>
+                  <label class="col-sm-5 control-label">BIR(Management and Consultancy Fee):</label>
                   <div class="col-sm-4">
                     <?php echo $bir; ?>.00 $
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-5 control-label">GSIS  :</label>
+                  <label class="col-sm-5 control-label">GSIS(Govenment service and insurance system for Collection and Remittance of Contribution)  :</label>
                   <div class="col-sm-4">
                     <?php echo $gsis; ?>.00 $
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-5 control-label">PAG-IBIG  :</label>
+                  <label class="col-sm-5 control-label">PAG-IBIG(Pag-IBIG Fund or Home Development Mutual Fund (HDMF)).  :</label>
                   <div class="col-sm-4">
                     <?php echo $love; ?>.00 $
                   </div>
@@ -129,10 +132,10 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-5 control-label"><button type="button" data-toggle="modal" data-target="#deductions" class="btn btn-danger">Update</button></label>
+         <!----         <label class="col-sm-5 control-label"><button type="button" data-toggle="modal" data-target="#deductions" class="btn btn-danger">Update</button></label>  ----->
                 </div>
               </form>
-
+</center>
       <!-- this modal is for update an DEDUCTIONS -->
       <div class="modal fade" id="deductions" role="dialog">
         <div class="modal-dialog">
@@ -179,9 +182,10 @@
 
                 <div class="form-group">
                   <label class="col-sm-4 control-label"></label>
+                  <center>
                   <div class="col-sm-8">
                     <input type="submit" name="submit" class="btn btn-success" value="Submit">
-                  </div>
+                  </div></center>
                 </div>
               </form>
 

@@ -3,27 +3,72 @@
 		//$id=$_REQUEST['emp_id'];
 		
 
-  include("db.php"); //include auth.php file on all secure pages
+ // include("db.php"); //include auth.php file on all secure pages
   include("auth.php");
   
   
-  $conn = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
-                          if (!$conn)
+   $connempfix = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                          if (!$connempfix)
                           {
                             die("Database Connection Failed" . mysqli_error());
                           }
 						  
+        
+		$id=$_REQUEST['emp_id'];
+		$fname=$_REQUEST['fname'];
+		$lname=$_REQUEST['lname'];
+		
 
-  $query="SELECT * from deductions WHERE deduction_id='1'";
-  $res=mysqli_query($conn,$query) or die("Error in Query" . mysqli_error($conn));
-  while($row = mysqli_fetch_array($res))
-  {
-    $phil = $row['philhealth'];
-    $bir = $row['bir'];
-    $gsis = $row['gsis'];
-    $love = $row['pag_ibig'];
-    $loans = $row['loans'];
-  }
+//print"$id";
+
+		
+        //$query1 = "SELECT * from employee where emp_id='".$id."'";
+       $queryfix = "select * from salary where fname='$fname' and lname='$lname' ";
+       
+	   
+	   
+	   
+	    $resfix = mysqli_query($connempfix,$queryfix) or die ( mysqli_error());
+
+$xfix=mysqli_fetch_array($resfix);
+
+
+if($xfix[3]=='0')
+{
+	
+	$connupdt = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+
+
+		$queryupdt = "UPDATE salary SET emp_id='$id' where fname='$fname' and lname='$lname' ";
+		mysqli_query($connupdt,$queryupdt) or die("Error in Query" . mysqli_error($connupdt));
+
+	  $cntupdt = mysqli_affected_rows($connupdt);
+	mysqli_close($connupdt);
+	
+	
+	
+}
+
+  
+  
+  
+//  $conn = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+  //                        if (!$conn)
+    //                      {
+      //                      die("Database Connection Failed" . mysqli_error());
+        //                  }
+						  
+
+ // $query="SELECT * from deductions WHERE deduction_id='1'";
+  //$res=mysqli_query($conn,$query) or die("Error in Query" . mysqli_error($conn));
+  //while($row = mysqli_fetch_array($res))
+ // {
+   // $phil = $row['philhealth'];
+    //$bir = $row['bir'];
+    //$gsis = $row['gsis'];
+    //$love = $row['pag_ibig'];
+   // $loans = $row['loans'];
+  //}
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +116,7 @@
     <div class="container">
       <div class="masthead">
         <h3>
-          <b><a href="index.php">Pride Payroll </a></b>
+         <b><img src="images/logo.png"> by Pridepoint</b>
             <a data-toggle="modal" href="#colins" class="pull-right"><b>Admin</b></a>
         </h3>
         <nav>
@@ -113,10 +158,182 @@
 
 $x=mysqli_fetch_array($res1);
 
-print"$x[0]";
+//print"$x[0]";
 
-$conn2 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
-                          if (!$conn2)
+//$conn2 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+  //                        if (!$conn2)
+    //                      {
+      //                      die("Database Connection Failed" . mysqli_error());
+        //                  }
+
+
+//
+  //      $query2  = "SELECT * from overtime ";
+	//	$res2=mysqli_query($conn2,$query2) or die ( mysqli_error()); 
+      //  while($row=mysqli_fetch_array($res2))
+        //{
+          //$rate   = $row['rate'];
+        //}
+
+
+ 
+		$id=$_REQUEST['emp_id'];
+
+
+$conn3 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                         if (!$conn3)
+                        {
+                         die("Database Connection Failed" . mysqli_error());
+                     }
+
+
+        $query3  = "select * from salary where emp_id='$id' ";
+		
+		$res3=mysqli_query($conn3,$query3) or die ( mysqli_error());
+        while($row3=mysqli_fetch_array($res3))
+        {
+          $salary   = $row3['salary_rate'];
+        }
+
+        while ($row = mysqli_fetch_assoc($res3))
+        {
+           $overtime     = $row3['overtime'] * $rate;
+            $bonus     = $row3['bonus'];
+            $deduction  = $ro3['deduction'];
+            $income   = $overtime + $bonus + $salary;
+            $netpay   = $income - $deduction;
+          
+		
+		}
+		  
+		  ?>
+          <?php
+		 //  $id=$_REQUEST['emp_id'];
+		  //global $id;
+		  ?>
+          
+          
+              <form class="form-horizontal"  method="post" name="form">
+                <input type="hidden" name="new" value="1" />
+                <input name="id" type="hidden" value="<?php echo $row3['emp_id'];?>" />
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label"></label>
+                    <div class="col-sm-4">
+                      <h2><?php //echo $row3['lname'];
+					  echo $x['2'];
+					  
+					   ?> <?php //echo $row3['fname'];
+					   echo $x['1'];
+					    ?></h2>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Deduction/s  :</label>
+                    <div class="col-sm-4">
+                    <select name="deduction" class="form-control" required>
+<?php
+                    $conn3e = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+
+
+                         if (!$conn3e)
+                        {
+                         die("Database Connection Failed" . mysqli_error());
+                     }
+
+
+        $query3e  = "select * from deductions";
+		
+		$res3e=mysqli_query($conn3e,$query3e) or die ( mysqli_error());
+        $my=mysqli_fetch_array($res3e);
+       
+	    $phil=$my[1];
+		$bir=$my[2];
+		$gis=$my[3];
+$pagibig=$my[4];
+$loans=		$my[5];
+		
+		?>
+
+                      <option value="<?php echo $phil; ?>">PhilHealth Premium</option>
+                      <option value="<?php echo $bir; ?>">BIR</option>
+                      <option value="<?php echo $gsis; ?>">GSIS</option>
+                      <option value="<?php echo $love; ?>">PAG-IBIG</option>
+                      <option value="<?php echo $loans; ?>">Loans</option>
+                    </select>
+                  </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Overtime  :</label>
+                    <div class="col-sm-4">
+                      <input type="text" name="overtime" class="form-control" value="<?php //echo $row3['overtime'];
+					  
+					   echo $x['7'];
+					  ?>" required>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Starting Salary  :</label>
+                    <div class="col-sm-4">
+                    <?php //echo $row3['overtime'];
+					  
+					   echo $x['9'];
+					  ?>
+                <!------      <input type="number" name="setsalary" class="form-control"  required>
+---->
+
+                    </div>
+                  </div>
+                    <div class="form-group">
+                    <label class="col-sm-5 control-label">New Salary  :</label>
+                    <div class="col-sm-4">
+                    <?php //echo $row3['overtime'];
+					  
+					  $eid=$_GET['emp_id'];
+
+
+$conn311 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                         if (!$conn311)
+                        {
+                         die("Database Connection Failed" . mysqli_error());
+                     }
+
+
+        $query311  = "select * from salary where emp_id='$eid' ";
+		
+		$res311=mysqli_query($conn311,$query311) or die ( mysqli_error());
+       $row311=mysqli_fetch_array($res311);
+					  
+					  
+					   echo $row311[1];
+					  ?>
+                <!------      <input type="number" name="setsalary" class="form-control"  required>
+---->
+
+                    </div>
+                  </div>
+                  
+                  
+                  
+                  
+                  
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Bonus  :</label>
+                    <div class="col-sm-4">
+                      <input type="text" name="bonus" class="form-control" value="<?php //echo $row3['bonus'];
+					  echo $x['8'];
+					  ?>" required>
+                    </div>
+                  </div><br><br>
+
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Netpay  :</label>
+                    <div class="col-sm-4">
+                      <?php 
+					  
+					  $id=$_REQUEST['emp_id'];
+					  $conn2 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                   if (!$conn2)
                           {
                             die("Database Connection Failed" . mysqli_error());
                           }
@@ -129,74 +346,58 @@ $conn2 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
         {
           $rate   = $row['rate'];
         }
+					  
+					  
+					  
+					  
+					  
+					  
+					  
+					  
+					  
+					  $conn45 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+                         if (!$conn3)
+                        {
+                         die("Database Connection Failed" . mysqli_error());
+                     }
 
 
-
-
-
-$conn3 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
-                          if (!$conn3)
-                          {
-                            die("Database Connection Failed" . mysqli_error());
-                          }
-
-
-        $query3  = "select * from salary";
+        $query45  = "select * from salary where emp_id='$id'";
 		
-		$res3=mysqli_query($conn3,$query3) or die ( mysqli_error());
-        while($row3=mysqli_fetch_array($res3))
-        {
-          $salary   = $row3['salary_rate'];
-        }
+		$res45=mysqli_query($conn45,$query45) or die ( mysqli_error());
+        
+		$row45=mysqli_fetch_array($res45);
+        
+          $salary   = $row45[1];
+        
 
-        while ($row = mysqli_fetch_assoc($res3))
-        {
-            $overtime     = $row3['overtime'] * $rate;
-            $bonus     = $row3['bonus'];
-            $deduction  = $ro3['deduction'];
+        //while ($row5 = mysqli_fetch_assoc($res4))
+		//$row5 = mysqli_fetch_assoc($res4);
+        
+           //$overtime     = $row5['overtime'] * $rate;
+		   $overtime     = $x['7'] * $rate;
+           // $bonus     = $row5['bonus'];
+		    $bonus     = $x['8'];
+		   
+//            $deduction  = $row5['deduction'];
+            $deduction  = $x['6'];
+
+
             $income   = $overtime + $bonus + $salary;
             $netpay   = $income - $deduction;
-          ?>
-
-              <form class="form-horizontal" action="update_account.php" method="post" name="form">
-                <input type="hidden" name="new" value="1" />
-                <input name="id" type="hidden" value="<?php echo $row3['emp_id'];?>" />
-                  <div class="form-group">
-                    <label class="col-sm-5 control-label"></label>
-                    <div class="col-sm-4">
-                      <h2><?php echo $row3['lname']; ?>, <?php echo $row3['fname']; ?></h2>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-5 control-label">Deduction/s  :</label>
-                    <div class="col-sm-4">
-                    <select name="deduction" class="form-control" required>
-                      <option value=""><?php echo $row3['deduction'];?></option>
-                      <option value="<?php echo $phil; ?>">PhilHealth</option>
-                      <option value="<?php echo $bir; ?>">BIR</option>
-                      <option value="<?php echo $gsis; ?>">GSIS</option>
-                      <option value="<?php echo $love; ?>">PAG-IBIG</option>
-                      <option value="<?php echo $loans; ?>">Loans</option>
-                    </select>
-                  </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-5 control-label">Overtime  :</label>
-                    <div class="col-sm-4">
-                      <input type="text" name="overtime" class="form-control" value="<?php echo $row3['overtime'];?>" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-5 control-label">Bonus  :</label>
-                    <div class="col-sm-4">
-                      <input type="text" name="bonus" class="form-control" value="<?php echo $row3['bonus'];?>" required>
-                    </div>
-                  </div><br><br>
-
-                  <div class="form-group">
-                    <label class="col-sm-5 control-label">Netpay  :</label>
-                    <div class="col-sm-4">
-                      <?php echo $netpay;?>.00
+          
+		
+		
+					  
+					  
+					  
+					  
+					  
+					  
+					  
+					  echo $netpay;
+		
+					  ?>.00
                     </div>
                   </div><br><br>
                   <div class="form-group">
@@ -206,9 +407,82 @@ $conn3 = mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
                       <a href="home_employee.php" class="btn btn-primary">Cancel</a>
                     </div>
                   </div>
+                  
+                  
+                  <?php
+				 
+$id=$_REQUEST['emp_id'];
+
+				  if(isset($_POST["submit"]))
+				  {
+					  //header("location:update_account.php?id=$id");
+				// print"<script>window.top.location.href='update_account.php?id=$id'";
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  // include("db.php");
+//  include("auth.php");
+
+  //$id           = $_POST['id'];
+ 
+// $id=$_GET["id"];
+  $deduction=$_POST["deduction"];
+  $overtime=$_POST["overtime"];
+  $bonus=$_POST["bonus"];
+  
+  //$salary=$_POST["setsalary"];
+ $connu=mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+ $consal=mysqli_connect('localhost', 'adiwal', 'adiwal@1.1', 'payroll');
+ 
+                   if(!$connu)
+                          {
+                            die("Database Connection Failed" . mysqli_error());
+                          }
+  $queryu="UPDATE employee SET deduction='$deduction',overtime='$overtime',bonus='$bonus' WHERE emp_id='$id'";
+
+
+//$querysal="UPDATE salary SET salary_rate='$salary' WHERE emp_id='$id'";
+
+//mysqli_query($consal,$querysal) or die("Error in Query" . mysqli_error($consal));
+
+mysqli_query($connu,$queryu) or die("Error in Query" . mysqli_error($connu));
+		  $cntu = mysqli_affected_rows($connu);
+	mysqli_close($connu);
+	  
+  if ($cntu>0)
+  {
+   
+   echo" <script>
+      alert('Account successfully updated.');
+      window.location.href='home_employee.php';
+    </script>";
+  }
+  else
+  {
+    echo" <script>
+      alert('Not successful');
+          </script>";
+  
+  
+  }
+
+				  
+				  
+				  
+				  
+				  
+				  }
+              
+                 ?>
               </form>
-            <?php
-          }
+           <?php
+         // }
         ?>
 
       <!-- this modal is for my Colins -->
